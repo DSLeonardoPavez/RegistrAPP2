@@ -4,7 +4,37 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+    redirectTo: 'login',
+    pathMatch: 'full'
+  },
+  {
+    path: 'home',
+    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: 'register',
+    loadChildren: () => import('./pages/register/register.module').then( m => m.RegisterPageModule)
+  },
+  {
+    path: 'recordar',
+    loadChildren: () => import('./pages/recordar/recordar.module').then( m => m.RecordarPageModule)
+  },
+  {
+    path: 'lectorqr',
+    loadChildren: () => import('./pages/lectorqr/lectorqr.module').then( m => m.LectorqrPageModule)
+  },
+  {
+    path: 'error404',
+    loadChildren: () => import('./error404/error404.module').then( m => m.Error404PageModule)
+  },
+   {
+    path: '**',
+    redirectTo: 'error404',
+    pathMatch: 'full'
   }
 ];
 @NgModule({
