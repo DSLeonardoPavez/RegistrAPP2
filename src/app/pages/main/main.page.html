@@ -1,6 +1,8 @@
+
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>main</ion-title>
+    <ion-button color="danger" (click)="logout()">Cerrar sesión</ion-button>
   </ion-toolbar>
 </ion-header>
 
@@ -10,4 +12,28 @@
       <ion-title size="large">main</ion-title>
     </ion-toolbar>
   </ion-header>
-</ion-content>
+  <ion-card *ngIf="user">
+    <ion-card-header>
+      <ion-card-title>Datos del usuario</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-label>Usuario:</ion-label>
+          <ion-text>{{ user.user }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>Nombre:</ion-label>
+          <ion-text>{{ user.name }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>Apellido:</ion-label>
+          <ion-text>{{ user.lastName }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>Correo electrónico:</ion-label>
+          <ion-text>{{ user.email }}</ion-text>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>

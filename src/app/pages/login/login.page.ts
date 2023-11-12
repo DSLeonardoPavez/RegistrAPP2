@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { GetOptions, Storage } from '@capacitor/storage';
-import { user } from 'src/app/modules/user';
+import { user } from '../../modules/user';
 import { Router } from '@angular/router';
 
 
@@ -30,31 +30,27 @@ export class LoginPage {
   loggedIn: boolean = false;
 
   async login() {
-    // Obtiene el usuario del almacenamiento
+    // Verifica que el usuario haya ingresado una contraseña
+   
+
+    // Verifica que el usuario exista en el almacenamiento
     const options: GetOptions = {
       key: 'user',
     };
-
+  
     const userStr = await Storage.get(options);
-
-    if (userStr.value !== null) {
-      const user = JSON.parse(userStr.value);
-
-      if (user) {
-          this.loggedIn = true;
-
-        if (this.user.password === this.password) {
-          
-          this.loggedIn = true;
-          this.router.navigate(['/main'], { queryParams: { user: this.user } });
-
-        } else {
-          this.loggedIn = false;
-        }
-      }
-    } else {
+    if (userStr.value === null || userStr.value === '') {
       alert('El usuario no existe');
+      return;
     }
+  
+    // Obtiene el usuario del almacenamiento
+    const user = JSON.parse(userStr.value);
+  
+    
+  
+    // Redirige al usuario a la página principal
+    this.router.navigate(['/main'], { queryParams: { user: this.user } });
   }
 
   ngOnInit() {
