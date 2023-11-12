@@ -1,4 +1,7 @@
-export interface Usuario{
-  correo:string;
-  nombre:string;
+export interface user{
+  user:string;
+  name:string;
+  lastName:string;
+  email:string;
+  password:string;
 }

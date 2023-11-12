@@ -31,10 +31,10 @@ const routes: Routes = [
     path: 'error404',
     loadChildren: () => import('./error404/error404.module').then( m => m.Error404PageModule)
   },
-   {
-    path: '**',
-    redirectTo: 'error404',
-    pathMatch: 'full'
+ 
+  {
+    path: 'main',
+    loadChildren: () => import('./pages/main/main.module').then( m => m.MainPageModule)
   }
 ];
 @NgModule({
