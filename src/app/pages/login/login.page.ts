@@ -31,8 +31,11 @@ export class LoginPage {
 
   async login() {
     // Verifica que el usuario haya ingresado una contraseña
-   
-
+   /*  if (!this.password) {
+      alert('Debes ingresar una contraseña');
+      return;
+    }
+    */
     // Verifica que el usuario exista en el almacenamiento
     const options: GetOptions = {
       key: 'user',
@@ -47,8 +50,12 @@ export class LoginPage {
     // Obtiene el usuario del almacenamiento
     const user = JSON.parse(userStr.value);
   
-    
-  
+    // Verifica que la contraseña sea correcta
+    /*if (user.password !== this.password) {
+      alert('La contraseña es incorrecta');
+      return;
+    }
+   */
     // Redirige al usuario a la página principal
     this.router.navigate(['/main'], { queryParams: { user: this.user } });
   }
