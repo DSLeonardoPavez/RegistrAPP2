@@ -24,10 +24,7 @@ const routes: Routes = [
     path: 'recordar',
     loadChildren: () => import('./pages/recordar/recordar.module').then( m => m.RecordarPageModule)
   },
-  {
-    path: 'lectorqr',
-    loadChildren: () => import('./pages/lectorqr/lectorqr.module').then( m => m.LectorqrPageModule)
-  },
+
   {
     path: 'error404',
     loadChildren: () => import('./error404/error404.module').then( m => m.Error404PageModule)

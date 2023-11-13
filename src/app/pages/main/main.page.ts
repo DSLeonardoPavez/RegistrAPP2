@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { GetOptions, Storage } from '@capacitor/storage';
 import { user } from '../../modules/user';
-
+import { NavController } from '@ionic/angular';
+import { Position } from '@capacitor/geolocation';
+import { Geolocation } from '@capacitor/geolocation';
 @Component({
   selector: 'app-main',
   templateUrl: './main.page.html',
@@ -11,12 +13,35 @@ import { user } from '../../modules/user';
 export class MainPage implements OnInit {
   user: user | null = null;
   router: Router;
-
+  //
   constructor(router: Router) {
     this.user = null;
     this.router = router;
+
+  }
+  
+/*
+  ngAfterViewInit() {
+    this.GeolocationNative();
   }
 
+  async GeolocationNative(){
+
+    const geolocation = new Geolocation();
+    
+    const promise = new Promise<Position>((resolve, reject) => {
+      geolocation.getCurrentPosition((position) => {
+        resolve(position);
+      }, (error) => {
+        reject(error);
+      });
+    });
+  
+    const position = await promise;
+  
+    console.log(position);
+ }
+ */
   async getUser(userData: string) {
     // Obtiene el usuario del almacenamiento
     const options: GetOptions = {
