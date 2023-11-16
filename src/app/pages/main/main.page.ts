@@ -2,46 +2,37 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { GetOptions, Storage } from '@capacitor/storage';
 import { user } from '../../modules/user';
-import { NavController } from '@ionic/angular';
-import { Position } from '@capacitor/geolocation';
-import { Geolocation } from '@capacitor/geolocation';
+import { BarcodeScanner } from '@awesome-cordova-plugins/barcode-scanner/ngx';
+
 @Component({
   selector: 'app-main',
   templateUrl: './main.page.html',
   styleUrls: ['./main.page.scss'],
+  providers: [
+    BarcodeScanner
+  ]
 })
 export class MainPage implements OnInit {
   user: user | null = null;
   router: Router;
-  //
-  constructor(router: Router) {
+
+  barcodeData: string | null = null; // Declare the barcodeData property as a string type
+
+  constructor(router: Router, private barcodeScanner: BarcodeScanner) {
     this.user = null;
     this.router = router;
-
-  }
-  
-/*
-  ngAfterViewInit() {
-    this.GeolocationNative();
   }
 
-  async GeolocationNative(){
-
-    const geolocation = new Geolocation();
-    
-    const promise = new Promise<Position>((resolve, reject) => {
-      geolocation.getCurrentPosition((position) => {
-        resolve(position);
-      }, (error) => {
-        reject(error);
-      });
+  async scanBarcode() {
+    this.barcodeScanner.scan().then((barcodeData) => {
+      // Store the barcode data in the barcodeData property
+      this.barcodeData = barcodeData.text;
+      console.log('Barcode data', barcodeData);
+    }).catch(err => {
+      console.log('Error', err);
     });
-  
-    const position = await promise;
-  
-    console.log(position);
- }
- */
+  }
+
   async getUser(userData: string) {
     // Obtiene el usuario del almacenamiento
     const options: GetOptions = {
@@ -51,9 +42,9 @@ export class MainPage implements OnInit {
     if (userStr.value === null || userStr.value === '') {
       return null;
     }
-    
+
     const user = JSON.parse(userStr.value);
-    
+
     // Verifica que el usuario coincida con el parámetro de consulta
     if (user.user === userData) {
       return user;
@@ -80,6 +71,7 @@ export class MainPage implements OnInit {
       this.router.navigate(['/login']);
     }
   }
+
   logout() {
     // Redirige al usuario a la página de inicio de sesión
     this.router.navigate(['/login']);

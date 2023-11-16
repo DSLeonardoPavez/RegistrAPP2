@@ -1,12 +1,9 @@
 interface Position {
-    coords: {
-       latitude: number;
-       longitude: number;
-       altitude: number;
-       accuracy: number;
-       altitudeAccuracy: number;
-       heading: number;
-       speed: number;
-    };
-    timestamp: number;
-   }
+   latitude: number;
+   longitude: number;
+   accuracy: number;
+   timestamp: number;
+   speed?: number;
+   heading?: number;
+   altitude?: number;
+ }
