@@ -4,4 +4,6 @@ export interface user{
   lastName:string;
   email:string;
   password:string;
+  regions: any[];
+  communes: any[];
 }

@@ -21,7 +21,9 @@ export class LoginPage {
       name: '',
       lastName: '',
       email: '',
-      password: ''
+      password: '',
+      regions: [],
+      communes: []
     };
   }
 

@@ -1,36 +1,55 @@
 <ion-header>
-  <ion-toolbar>
+   <ion-toolbar>
      <ion-title>Registro</ion-title>
-  </ion-toolbar>
+   </ion-toolbar>
  </ion-header>
  
  <ion-content>
-  <ion-item>
+   <ion-item>
      <ion-label position="floating">Nombre de usuario</ion-label>
      <ion-input type="text" [(ngModel)]="user.user"></ion-input>
-  </ion-item>
+   </ion-item>
  
-  <ion-item>
+   <ion-item>
      <ion-label position="floating">Nombre</ion-label>
      <ion-input type="text" [(ngModel)]="user.name"></ion-input>
-  </ion-item>
+   </ion-item>
  
-  <ion-item>
+   <ion-item>
      <ion-label position="floating">Apellido</ion-label>
      <ion-input type="text" [(ngModel)]="user.lastName"></ion-input>
-  </ion-item>
+   </ion-item>
  
-  <ion-item>
+   <ion-item>
      <ion-label position="floating">Correo electrónico</ion-label>
      <ion-input type="email" [(ngModel)]="user.email"></ion-input>
-  </ion-item>
+   </ion-item>
  
-  <ion-item>
+   <ion-item>
      <ion-label position="floating">Contraseña</ion-label>
      <ion-input type="password" [(ngModel)]="user.password"></ion-input>
-  </ion-item>
-  <ion-button expand="full" (click)="saveUser()">Registrarse</ion-button>
-
-  <ion-button expand="block" fill="clear" routerLink="/login">iniciar sesión</ion-button>
-
+   </ion-item>
+ 
+   <ion-item>
+     <ion-label>Región</ion-label>
+     <ion-select (ionChange)="onSelectRegion($event.detail.value)">
+       <ion-select-option *ngFor="let region of regions" value="{{ region.id }}">
+         {{ region.name }}
+       </ion-select-option>
+     </ion-select>
+   </ion-item>
+ 
+   <ion-item>
+     <ion-label>Comuna</ion-label>
+     <ion-select (ionChange)="selectedRegion = $event.target.value; fetchCommunes();">
+      <ng-container *ngFor="let commune of communes$ | async">
+         <ion-select-option *ngFor="let commune of communes" value="{{ commune.id }}">
+           {{ commune.name }}
+         </ion-select-option>
+       </ng-container>
+     </ion-select>
+   </ion-item>
+ 
+   <ion-button expand="full" (click)="saveUser()">Registrarse</ion-button>
+   <ion-button expand="block" fill="clear" routerLink="/login">Iniciar sesión</ion-button>
  </ion-content>
