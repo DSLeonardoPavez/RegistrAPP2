@@ -4,6 +4,10 @@ import { user } from '../../modules/user';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
+import { Geolocation, GeolocationPosition } from '@capacitor/geolocation';
+import { BrowserQRCodeReader } from '@zxing/browser';
+import { NavController } from '@ionic/angular';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 interface ApiResponse {
   data: any[];
@@ -14,12 +18,16 @@ interface ApiResponse {
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage {
+  currentLocation: string = '';
+  scannedQRCode: string = '';
+  fotoURL: SafeResourceUrl | null = null;
   regions: any[] = [];
   communes$: Observable<any[]> = of([]); // Initialize an empty observable
   selectedRegion: number | null = null;
   router: Router;
 
-  constructor(router: Router, private http: HttpClient) {
+  constructor(router: Router, private http: HttpClient,  private navCtrl: NavController,private sanitizer: DomSanitizer) {
+    
     this.router = router;
   }
 
@@ -37,6 +45,31 @@ export class RegisterPage {
   };
 
   ngOnInit() {
+    const fotoURLFromLocalStorage = localStorage.getItem('foto');
+    if (fotoURLFromLocalStorage) {
+      this.fotoURL = this.sanitizer.bypassSecurityTrustResourceUrl(fotoURLFromLocalStorage);
+    }
+
+    const codeReader = new BrowserQRCodeReader();
+    const videoElement = document.getElementById('videoElement') as HTMLVideoElement;
+
+    codeReader
+      .decodeFromVideoDevice(undefined, videoElement, (result, err) => {
+        if (result) {
+          this.scannedQRCode = result.getText();
+          console.log('Código QR escaneado:', this.scannedQRCode);
+        }
+        if (err) {
+          console.error('Error al escanear:', err);
+        }
+      })
+      .catch((err) => {
+        console.error('Error al iniciar la cámara:', err);
+      });
+
+    this.getCurrentLocation();
+
+
     this.fetchRegions();
 
     // Fetch communes initially and update the observable
@@ -52,6 +85,15 @@ export class RegisterPage {
         this.regions = region;
       });
   }
+  async getCurrentLocation() {
+    try {
+      const coordinates: GeolocationPosition = await Geolocation.getCurrentPosition();
+      this.currentLocation = `Latitud: ${coordinates.coords.latitude}, Longitud: ${coordinates.coords.longitude}`;
+      console.log('Ubicación actual:', this.currentLocation);
+    } catch (error) {
+      console.error('Error al obtener la ubicación:', error);
+    }
+  }
 
   fetchCommunes() {
     if (this.selectedRegion) {
@@ -63,7 +105,15 @@ export class RegisterPage {
          });
     }
    }
-  
+   navigateLeft() {
+    this.navCtrl.back();
+  }
+
+  openLink(url: string) {
+    if (url) {
+      window.open(url, '_blank');
+    }
+  }
 
   onSelectRegion(regionId: number) {
     this.selectedRegion = regionId;
