@@ -6,10 +6,13 @@ import { Observable, of } from 'rxjs';
   providedIn: 'root',
 })
 export class ApiService {
-  regions$: Observable<any[]> = of([]); // Initialize an empty observable
-  communes$: Observable<any[]> = of([]); // Initialize an empty observable
+  regions$: Observable<any[]>;
+  communes$: Observable<any[]>;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.regions$ = new Observable<any[]>(); // Inicializa un observable vacío
+    this.communes$ = new Observable<any[]>(); // Inicializa un observable vacío
+  }
 
   fetchRegions(): Observable<any> {
     return this.http.get('https://dev.matiivilla.cl/duoc/location/region');

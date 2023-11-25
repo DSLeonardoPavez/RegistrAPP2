@@ -32,10 +32,13 @@
     "@capacitor/storage": "^1.2.5",
     "@ionic/angular": "^7.0.0",
     "@zxing/browser": "^0.1.4",
+    "@zxing/ngx-scanner": "^16.1.0",
     "body-parser": "^1.20.2",
     "cordova-plugin-barcodescanner": "^0.7.4",
     "ionicons": "^7.0.0",
     "ngx-auth": "^5.4.0",
+    "ngx-qrcode2": "^9.0.0",
+    "ngx-scanner": "^0.0.0",
     "npm": "^10.2.3",
     "phonegap-plugin-barcodescanner": "^8.1.0",
     "rxjs": "~7.8.0",
@@ -43,11 +46,7 @@
     "zone.js": "~0.13.0"
   },
   "devDependencies": {
-<<<<<<< HEAD
     "@angular-devkit/build-angular": "^16.2.10",
-=======
-    "@angular-devkit/build-angular": "^16.0.0",
->>>>>>> f7e624cdea1607629fdf5eebd0d9b677577bbcf7
     "@angular-eslint/builder": "^16.0.0",
     "@angular-eslint/eslint-plugin": "^16.0.0",
     "@angular-eslint/eslint-plugin-template": "^16.0.0",

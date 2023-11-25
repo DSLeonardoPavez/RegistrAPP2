@@ -1,67 +1,50 @@
-import { Component, OnInit } from '@angular/core';
-import { BarcodeScanner } from '@capacitor/barcode-scanner';
-<<<<<<< HEAD
-import { Storage } from '@capacitor/storage';
+// qr.component.ts
+import { Component } from '@angular/core';
+import { Result } from '@zxing/library';
+import { BarcodeFormat } from '@zxing/library';
 
-=======
->>>>>>> f7e624cdea1607629fdf5eebd0d9b677577bbcf7
 @Component({
   selector: 'app-qr',
-  templateUrl: './qr.component.html',
-  styleUrls: ['./qr.component.scss'],
+  template: `
+    <div *ngIf="!isScanning">
+      <ngx-qrcode [qrc-value]="qrData"></ngx-qrcode>
+    </div>
+
+    <div *ngIf="isScanning">
+      <zxing-scanner
+        [torch]="torch"
+        [formats]="allowedFormats"
+        (scanSuccess)="onScanSuccess($event)"
+      ></zxing-scanner>
+    </div>
+
+    <button (click)="toggleScanner()">Toggle Scanner</button>
+  `,
+  styles: [
+    `
+      div {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      button {
+        margin-top: 10px;
+      }
+    `,
+  ],
 })
-<<<<<<< HEAD
-export class QrComponent implements OnInit {
-  user: any; // Deberías tener una definición para esta propiedad
+export class QrComponent {
+  qrData = 'Hello, World!';
+  isScanning = false;
+  torch = false;
+  allowedFormats = [BarcodeFormat.QR_CODE];
 
-  constructor() {}
-
-  async ngOnInit() {
-    // Get the user data from Capacitor Storage
-    const data = await Storage.get({ key: 'user' });
-
-=======
-export class QrComponent  implements OnInit {
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
-  }
-/*
-  constructor() { }
-  
-  async scanQRCode() {
-    const result = await BarcodeScanner.scan();
-    console.log(result);
+  toggleScanner() {
+    this.isScanning = !this.isScanning;
   }
 
-  ngOnInit() {
-    // Get the user data from Capacitor Storage
-    const data = await Storage.get({ key: 'user' });
-  
->>>>>>> f7e624cdea1607629fdf5eebd0d9b677577bbcf7
-    // Check if the `user` property is `null`
-    if (data.value === null) {
-      // Assign `null` to the `user` property
-      this.user = null;
-    } else {
-      // Parse the user data and assign it to the `user` property
-      this.user = JSON.parse(data.value);
-    }
-<<<<<<< HEAD
-
-=======
-  
->>>>>>> f7e624cdea1607629fdf5eebd0d9b677577bbcf7
-    // Call the `scanQRCode()` method
-    this.scanQRCode();
-  }
-
-<<<<<<< HEAD
-  async scanQRCode() {
-    const result = await BarcodeScanner.scan();
-    console.log(result);
+  onScanSuccess(result: Result) {
+    console.log('Scanned:', result.getText());
+    this.toggleScanner();
   }
 }
-=======
-} */
-}
->>>>>>> f7e624cdea1607629fdf5eebd0d9b677577bbcf7
