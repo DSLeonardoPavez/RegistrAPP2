@@ -1,15 +1,15 @@
+<!-- main.page.html -->
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-button (click)="scanBarcode()">Escanear código de barras</ion-button>
-
     <ion-button color="danger" (click)="logout()">Cerrar sesión</ion-button>
   </ion-toolbar>
 </ion-header>
 
-
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
+      <!-- ... (encabezado) ... -->
     </ion-toolbar>
   </ion-header>
 
@@ -40,7 +40,6 @@
     </ion-card-content>
   </ion-card>
 
-  <div class="barcode-data" *ngIf="barcodeData">
-    <p>Datos del código de barras: {{ barcodeData }}</p>
-  </div>
+  <app-qr-reader></app-qr-reader> <!-- Incluye el componente QrComponent aquí -->
+
 </ion-content>

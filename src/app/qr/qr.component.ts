@@ -1,36 +1,35 @@
+// qr-reader.component.ts
 import { Component, OnInit } from '@angular/core';
-import { BarcodeScanner } from '@capacitor/barcode-scanner';
-import { Storage } from '@capacitor/storage';
 
 @Component({
-  selector: 'app-qr',
-  templateUrl: './qr.component.html',
-  styleUrls: ['./qr.component.scss'],
+  selector: 'app-qr-reader',
+  template: `
+    <zxing-scanner
+      [(device)]="currentDevice"
+      [formats]="formats"
+      [torch]="torch"
+      (camerasFound)="camerasFoundHandler($event)"
+    ></zxing-scanner>
+  `,
+  styles: [
+    `
+      :host {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+    `,
+  ],
 })
-export class QrComponent implements OnInit {
-  user: any; // Deberías tener una definición para esta propiedad
+export class QrReaderComponent implements OnInit {
+  currentDevice: MediaDeviceInfo | undefined;
+  formats: string[] = ['QR_CODE'];
+  torch = false;
 
-  constructor() {}
+  ngOnInit(): void {}
 
-  async ngOnInit() {
-    // Get the user data from Capacitor Storage
-    const data = await Storage.get({ key: 'user' });
-
-    // Check if the `user` property is `null`
-    if (data.value === null) {
-      // Assign `null` to the `user` property
-      this.user = null;
-    } else {
-      // Parse the user data and assign it to the `user` property
-      this.user = JSON.parse(data.value);
-    }
-
-    // Call the `scanQRCode()` method
-    this.scanQRCode();
-  }
-
-  async scanQRCode() {
-    const result = await BarcodeScanner.scan();
-    console.log(result);
+  camerasFoundHandler(devices: MediaDeviceInfo[]): void {
+    // Selecciona la primera cámara encontrada (puedes ajustar la lógica según tus necesidades)
+    this.currentDevice = devices[0];
   }
 }
