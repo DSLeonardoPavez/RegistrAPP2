@@ -1,28 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+// main.page.ts
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { GetOptions, Storage } from '@capacitor/storage';
 import { user } from '../../modules/user';
-import { BarcodeScanner, BarcodeScanResult } from '@awesome-cordova-plugins/barcode-scanner/ngx';
-
+import { QrReaderComponent } from '../../qr-reader/qr-reader.component';
 @Component({
   selector: 'app-main',
   templateUrl: './main.page.html',
   styleUrls: ['./main.page.scss'],
-  providers: [BarcodeScanner],
 })
 export class MainPage implements OnInit {
   user: user | null = null;
   barcodeData: string | null = null;
 
-  constructor(private router: Router, private barcodeScanner: BarcodeScanner) {}
+  @ViewChild(QrReaderComponent, { static: false }) qrReaderComponent?: QrReaderComponent; // Propiedad puede ser undefined
+
+  constructor(private router: Router) {}
 
   async scanBarcode() {
-    try {
-      const barcodeResult: BarcodeScanResult = await this.barcodeScanner.scan();
-      this.barcodeData = barcodeResult.text;
-      console.log('Barcode data', barcodeResult);
-    } catch (error) {
-      console.error('Error scanning barcode', error);
+    // Llama al método del componente lector de QR si está definido
+    this.checkQRReaderComponent();
+    if (this.qrReaderComponent) {
+      this.qrReaderComponent.scanQRCode();
     }
   }
 
@@ -70,5 +69,12 @@ export class MainPage implements OnInit {
 
   logout() {
     this.router.navigate(['/login']);
+  }
+
+  private checkQRReaderComponent() {
+    // Realiza la comprobación de si el componente existe
+    if (!this.qrReaderComponent) {
+      console.error('QR Reader Component is not available.');
+    }
   }
 }

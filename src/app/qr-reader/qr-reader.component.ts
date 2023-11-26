@@ -32,4 +32,9 @@ export class QrReaderComponent implements OnInit {
     // Selecciona la primera cámara encontrada (puedes ajustar la lógica según tus necesidades)
     this.currentDevice = devices[0];
   }
+
+  // Agrega el método scanQRCode
+  scanQRCode(): void {
+    // Lógica de escaneo de código QR aquí
+  }
 }

@@ -7,9 +7,9 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
-import { QrReaderComponent } from './qr/qr.component';
+// Elimina la declaración de QrReaderComponent de aquí
 @NgModule({
-  declarations: [AppComponent, QrReaderComponent], // Asegúrate de incluir QrReaderComponent aquí
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
