@@ -18,6 +18,8 @@ export class GeolocationService {
     }
   }
 
+  
+
   private async obtenerUbicacionWeb(): Promise<{ latitude: number, longitude: number }> {
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(

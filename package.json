@@ -34,6 +34,7 @@
     "@capacitor/storage": "^1.2.5",
     "@ionic/angular": "^7.5.6",
     "@zxing/browser": "^0.1.4",
+    "@zxing/library": "^0.20.0",
     "@zxing/ngx-scanner": "^17.0.0",
     "body-parser": "^1.20.2",
     "cordova-plugin-barcodescanner": "^0.7.4",

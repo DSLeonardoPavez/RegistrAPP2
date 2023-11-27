@@ -1,5 +1,5 @@
-// main.page.ts
-import { Component, OnInit, ViewChild } from '@angular/core';
+
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { GetOptions, Storage } from '@capacitor/storage';
 import { user } from '../../modules/user';
@@ -14,8 +14,10 @@ export class MainPage implements OnInit {
   user: user | null = null;
   barcodeData: string | null = null;
 
-  @ViewChild(QrReaderComponent, { static: false }) qrReaderComponent?: QrReaderComponent; // Propiedad puede ser undefined
-
+  @ViewChild(QrReaderComponent, { static: false }) qrReaderComponent?: QrReaderComponent;
+  @ViewChild('latitudeDiv') private latitudeDiv!: ElementRef<HTMLDivElement>;
+  @ViewChild('longitudeDiv') private longitudeDiv!: ElementRef<HTMLDivElement>;
+  
   constructor(private router: Router, private geolocationService: GeolocationService) {}
 
   async scanBarcode() {
@@ -29,7 +31,13 @@ export class MainPage implements OnInit {
     try {
       const ubicacion = await this.geolocationService.solicitarPermisos();
       console.log('Ubicación actual:', ubicacion);
+      // Actualizar las vistas de latitudeDiv y longitudeDiv
+      if (this.latitudeDiv && this.longitudeDiv) {
+        this.latitudeDiv.nativeElement.textContent = `Latitude: ${ubicacion.latitude}`;
+        this.longitudeDiv.nativeElement.textContent = `Longitude: ${ubicacion.longitude}`;
+      }
     } catch (error) {
+      console.error('Error al obtener la ubicación', error);
       // Manejar el error según tus necesidades
     }
   }
