@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { GetOptions, Storage } from '@capacitor/storage';
 import { user } from '../../modules/user';
 import { QrReaderComponent } from '../../qr-reader/qr-reader.component';
+import { GeolocationService } from '../../services/geolocation.service';
 @Component({
   selector: 'app-main',
   templateUrl: './main.page.html',
@@ -15,13 +16,21 @@ export class MainPage implements OnInit {
 
   @ViewChild(QrReaderComponent, { static: false }) qrReaderComponent?: QrReaderComponent; // Propiedad puede ser undefined
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private geolocationService: GeolocationService) {}
 
   async scanBarcode() {
     // Llama al método del componente lector de QR si está definido
     this.checkQRReaderComponent();
     if (this.qrReaderComponent) {
       this.qrReaderComponent.scanQRCode();
+    }
+  }
+  async obtenerUbicacion() {
+    try {
+      const ubicacion = await this.geolocationService.solicitarPermisos();
+      console.log('Ubicación actual:', ubicacion);
+    } catch (error) {
+      // Manejar el error según tus necesidades
     }
   }
 

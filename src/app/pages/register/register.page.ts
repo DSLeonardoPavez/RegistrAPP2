@@ -2,9 +2,7 @@ import { Component } from '@angular/core';
 import { Storage } from '@capacitor/storage';
 import { user } from '../../modules/user';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { NavController } from '@ionic/angular';
+import { of } from 'rxjs';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ApiService } from '../../api/api.service';
 
@@ -20,8 +18,6 @@ export class RegisterPage {
 
   constructor(
     private router: Router,
-    private http: HttpClient,
-    private navCtrl: NavController,
     private sanitizer: DomSanitizer,
     public apiService: ApiService // Asegúrate de que apiService sea público
   ) {}

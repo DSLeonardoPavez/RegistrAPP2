@@ -40,6 +40,10 @@
     </ion-card-content>
   </ion-card>
 
-  <app-qr-reader></app-qr-reader> <!-- Incluye el componente QrComponent aquí -->
-
+<ion-content>
+  <ion-button (click)="obtenerUbicacion()">Obtener Ubicación</ion-button>
+</ion-content>
+  <ion-content>
+    <app-qr-reader></app-qr-reader>
+  </ion-content>
 </ion-content>
