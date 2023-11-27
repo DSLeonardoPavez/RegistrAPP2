@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { GetOptions, SetOptions, Storage } from '@capacitor/storage';
+import { Plugins } from '@capacitor/core';
 import { user } from '../../modules/user';
 import { Router } from '@angular/router';
+const { Preferences } = Plugins;
+
 
 @Component({
   selector: 'app-recordar',
@@ -15,15 +17,14 @@ export class RecordarPage implements OnInit {
 
   constructor(private router: Router) {
     this.newPassword = '';
-    
   }
 
   ngOnInit() {
-    this.getUserFromStorage();
+    this.getUserFromPreferences();
   }
 
   async changePassword() {
-    // Verifica que el usuario exista en el almacenamiento local
+    // Verifica que el usuario exista en las preferencias
     if (!this.user) {
       alert('El usuario no existe');
       return;
@@ -44,28 +45,35 @@ export class RecordarPage implements OnInit {
     // Actualiza la contraseña del usuario
     this.user.password = this.newPassword;
 
-    // Guarda el usuario en el almacenamiento
+    // Guarda el usuario en las preferencias
     const options: SetOptions = {
       key: 'user',
       value: JSON.stringify(this.user),
     };
 
-    await Storage.set(options);
+    await Preferences.set(options);
 
     // Redirige al usuario a la página principal
     this.router.navigate(['/main'], { queryParams: { user: this.user } });
   }
 
-  async getUserFromStorage(): Promise<user | null> {
-    // Obtiene el usuario del almacenamiento local
+  async getUserFromPreferences(): Promise<user | null> {
+    // Obtiene el usuario de las preferencias
     const options: GetOptions = {
       key: 'user',
     };
-    const userStr = await Storage.get(options);
-    if (userStr.value !== null) {
-      return JSON.parse(userStr.value);
-    } else {
-      return null;
+    try {
+      const userStr = await Preferences.get(options);
+      if (userStr.value !== null) {
+        this.user = JSON.parse(userStr.value);
+      } else {
+        this.user = null;
+      }
+    } catch (error) {
+      console.error('Error al obtener el usuario de las preferencias', error);
+      this.user = null;
     }
+
+    return this.user;
   }
 }

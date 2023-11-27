@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { GetOptions, Storage } from '@capacitor/storage';
+import { Preferences } from '@capacitor/preferences';
 import { user } from '../../modules/user';
 import { Router } from '@angular/router';
 
@@ -23,7 +23,7 @@ export class LoginPage {
       email: '',
       password: '',
       regions: [],
-      communes: []
+      communes: [],
     };
   }
 
@@ -31,41 +31,36 @@ export class LoginPage {
   loggedIn: boolean = false;
 
   async login() {
-    // Verifica que el usuario no esté ya conectado
+    // Verify that the user is not already logged in
     if (this.loggedIn) {
       return;
     }
 
-    // Verifica que el usuario haya ingresado una contraseña
+    // Verify that the user has entered a password
     if (!this.password) {
       alert('Debes ingresar una contraseña');
       return;
     }
 
-    // Verifica que el usuario exista en el almacenamiento
-    const options: GetOptions = {
-      key: 'user',
-    };
-
-    const userStr = await Storage.get(options);
-    if (userStr.value === null || userStr.value === '') {
+    // Get the user from storage
+    const userStr = await Preferences.get({ key: 'user' });
+    if (!userStr.value) {
       alert('El usuario no existe');
       return;
     }
 
-    // Obtiene el usuario del almacenamiento
     const currentUser = JSON.parse(userStr.value);
 
-    // Verifica que la contraseña sea correcta
+    // Verify that the password is correct
     if (this.currentUser.user !== currentUser.user || this.password !== currentUser.password) {
       alert('El usuario o la contraseña no son correctos');
       return;
     }
 
-    // Establece el usuario como conectado
+    // Set the user as logged in
     this.loggedIn = true;
 
-    // Redirige al usuario a la página principal
+    // Redirect the user to the main page
     this.router.navigate(['/main'], { queryParams: { user: this.currentUser } });
   }
 

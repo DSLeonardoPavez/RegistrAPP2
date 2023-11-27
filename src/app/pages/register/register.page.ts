@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Storage } from '@capacitor/storage';
+import { Preferences } from '@capacitor/preferences';
 import { user } from '../../modules/user';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
@@ -23,14 +23,23 @@ export class RegisterPage {
   ) {}
 
   // Verifica si el usuario ya está registrado
-  isUserRegistered = async () => {
-    const userStr = await Storage.get({ key: 'user' });
-    return userStr.value !== null;
+  isUserRegistered = async (): Promise<boolean> => {
+    try {
+      const userStr = await Preferences.get({ key: 'user' });
+      return userStr.value !== null;
+    } catch (error) {
+      console.error('Error al verificar el registro del usuario', error);
+      return false;
+    }
   };
 
-  saveUser = async () => {
-    await Storage.set({ key: 'user', value: JSON.stringify(this.user) });
-    this.router.navigate(['/login']);
+  saveUser = async (): Promise<void> => {
+    try {
+      await Preferences.set({ key: 'user', value: JSON.stringify(this.user) });
+      this.router.navigate(['/login']);
+    } catch (error) {
+      console.error('Error al guardar el usuario', error);
+    }
   };
 
   ngOnInit() {
@@ -39,10 +48,13 @@ export class RegisterPage {
       this.apiService.regions$ = of(regions);
     });
 
-    const fotoURLFromLocalStorage = localStorage.getItem('foto');
-    if (fotoURLFromLocalStorage) {
-      this.fotoURL = this.sanitizer.bypassSecurityTrustResourceUrl(fotoURLFromLocalStorage);
-    }
+    // Utiliza Capacitor Preferences en lugar de localStorage
+    Preferences.get({ key: 'foto' }).then((result) => {
+      const fotoURLFromPreferences = result.value;
+      if (fotoURLFromPreferences) {
+        this.fotoURL = this.sanitizer.bypassSecurityTrustResourceUrl(fotoURLFromPreferences);
+      }
+    });
   }
 
   fetchCommunes() {

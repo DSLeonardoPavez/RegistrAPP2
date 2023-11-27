@@ -1,6 +1,6 @@
 {
-    "appId": "registrapp",
-    "appName": "registrapp",
+    "appId": "registr-app",
+    "appName": "registr-app",
     "bundledWebRuntime": false,
     "npmClient": "npm",
     "webDir": "www",
