@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Plugins } from '@capacitor/core';
+import { Preferences } from '@capacitor/preferences';
 import { user } from '../../modules/user';
 import { Router } from '@angular/router';
-const { Preferences } = Plugins;
+import { GetOptions, SetOptions } from '@capacitor/preferences';
 
 
 @Component({

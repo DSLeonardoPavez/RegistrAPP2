@@ -1,8 +1,7 @@
 // geolocation.service.ts
 import { Injectable } from '@angular/core';
-import { Plugins, GeolocationPosition } from '@capacitor/core';
-
-const { Geolocation, Capacitor } = Plugins;
+import { Capacitor } from '@capacitor/core';
+import { Geolocation } from '@capacitor/geolocation';
 @Injectable({
   providedIn: 'root'
 })
